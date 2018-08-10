@@ -1,13 +1,13 @@
 import React from "react";
 import { Container } from "./style";
 
-const RepositoryName = () => (
+const RepositoryName = ({ user, repo, image }) => (
   <div>
     <Container>
-      <img src="image.png" alt="" />
+      <img src={image} alt="" />
       <div>
-        <h4>react-navigation</h4>
-        <small>React Community</small>
+        <h4>{repo}</h4>
+        <small>{user}</small>
       </div>
     </Container>
   </div>

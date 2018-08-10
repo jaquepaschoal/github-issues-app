@@ -3,8 +3,9 @@ import { Content } from "./style";
 
 const FilterStatus = () => (
   <Content>
-    <option value="0">Abertas</option>
-    <option value="1">ola</option>
+    <option value="0">Todas</option>
+    <option value="1">Fechadas</option>
+    <option value="2">Abertas</option>
   </Content>
 );
 

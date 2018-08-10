@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const Teste = styled.div`
   display: flex;
+  max-height: 100%;
+  overflow: scroll;
   flex-wrap: wrap;
   width: 100%;
 `;

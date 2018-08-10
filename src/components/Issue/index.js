@@ -1,21 +1,25 @@
 import React from "react";
 import { Container, Teste } from "./style";
 
-const Issue = () => (
+const Issue = ({ issues }) => (
   <Teste>
-    <Container>
-      <img src="" alt="" />
-      <div>
+    {issues.map(item => (
+      <Container key={item.id}>
         <div>
-          <h4>Problem doing some stuff...</h4>
-          <small>jaquepaschoal </small>
+          <img src={item.user.avatar_url} />
         </div>
-        <a href="#">
-          <i className="fa fa-external-link" />
-          ABRIR ISSUE
-        </a>
-      </div>
-    </Container>
+        <div>
+          <div>
+            <h4>{item.title}</h4>
+            <small>{item.user.login} </small>
+          </div>
+          <a href={item.html_url} target="blank">
+            <i className="fa fa-external-link" />
+            ABRIR ISSUE
+          </a>
+        </div>
+      </Container>
+    ))}
   </Teste>
 );
 export default Issue;

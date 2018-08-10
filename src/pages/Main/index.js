@@ -10,7 +10,12 @@ export default class Main extends Component {
   state = {
     input: "",
     repositoryError: false,
-    repositories: []
+    repositories: [],
+    repoClick: false,
+    issues: [],
+    repositoryName: "",
+    repositoryUser: "",
+    repositoryAvatar: ""
   };
 
   addRepository = async e => {
@@ -31,12 +36,20 @@ export default class Main extends Component {
     }
   };
 
-  showIssues = e => {
-    let repoId = e.target.id;
-    console.log(e.target);
-    let repo = this.state.repositories.find(item => item.id === repoId);
-
-    console.log(repo);
+  showIssues = async (login, name, avatar) => {
+    try {
+      const issue = await api.get(`repos/${login}/${name}/issues?state=all `);
+      this.setState({
+        issues: [issue.data],
+        repositoryName: name,
+        repositoryUser: login,
+        repositoryAvatar: avatar,
+        repoClick: true
+      });
+    } catch (err) {
+      this.setState({ repositoryError: true });
+    } finally {
+    }
   };
 
   render() {
@@ -58,18 +71,38 @@ export default class Main extends Component {
             </button>
           </Form>
           <Divisor />
-          <Repository
-            showIssues={this.showIssues}
-            repositories={this.state.repositories}
-          />
+          {this.state.repositories.map(repository => {
+            return (
+              <Repository
+                key={repository.id}
+                image={repository.owner.avatar_url}
+                name={repository.name}
+                user={repository.owner.login}
+                alt={repository.name}
+                showIssues={() =>
+                  this.showIssues(
+                    repository.owner.login,
+                    repository.name,
+                    repository.owner.avatar_url
+                  )
+                }
+              />
+            );
+          })}
         </Sidebar>
 
         <Box>
           <Header>
-            <RepositoryName />
+            {this.state.repoClick && (
+              <RepositoryName
+                repo={this.state.repositoryName}
+                user={this.state.repositoryUser}
+                image={this.state.repositoryAvatar}
+              />
+            )}
             <FilterStatus />
           </Header>
-          <Issue>teste</Issue>
+          {this.state.repoClick && <Issue issues={this.state.issues[0]} />}
         </Box>
       </Content>
     );

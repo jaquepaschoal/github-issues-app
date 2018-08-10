@@ -1,23 +1,22 @@
 import React from "react";
 import { Container, Icon } from "./style";
 
-const Repository = ({ repositories, showIssues }) => (
+const Repository = ({ image, name, user, alt, showIssues }) => (
   <div onClick={showIssues}>
-    {repositories.map(repository => (
-      <Container key={repository.id} id={repository.id}>
-        <img src={repository.owner.avatar_url} alt={repository.owner.login} />
-        <section>
-          <main>
-            <h4>{repository.name}</h4>
-            <small>{repository.owner.login}</small>
-          </main>
-
-          <Icon>
-            <i className="fa fa-chevron-right" />
-          </Icon>
-        </section>
-      </Container>
-    ))}
+    <Container>
+      <div>
+        <img src={image} alt={alt} />
+      </div>
+      <section>
+        <main>
+          <h4>{name}</h4>
+          <small>{user}</small>
+        </main>
+        <Icon>
+          <i className="fa fa-chevron-right" />
+        </Icon>
+      </section>
+    </Container>
   </div>
 );
 
