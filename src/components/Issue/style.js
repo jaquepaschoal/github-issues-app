@@ -29,6 +29,10 @@ export const Container = styled.div`
     justify-content: center;
 
     h4 {
+      width: 160px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
       font-size: 15px;
     }
 
