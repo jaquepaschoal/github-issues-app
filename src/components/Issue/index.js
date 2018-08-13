@@ -6,7 +6,7 @@ const Issue = ({ issues }) => (
     {issues.map(item => (
       <Container key={item.id}>
         <div>
-          <img src={item.user.avatar_url} />
+          <img src={item.user.avatar_url} alt={item.user.login} />
         </div>
         <div>
           <div>

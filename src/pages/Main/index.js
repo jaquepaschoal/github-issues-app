@@ -4,7 +4,6 @@ import Repository from "../../components/Repository";
 import RepositoryName from "../../components/RepositoryName";
 import FilterStatus from "../../components/FilterStatus";
 import Issue from "../../components/Issue";
-import Loading from "../../components/Loading";
 import api from "../../services/api";
 
 export default class Main extends Component {
@@ -22,7 +21,7 @@ export default class Main extends Component {
 
   addRepository = async e => {
     e.preventDefault();
-
+    this.setState({ loading: true });
     try {
       const repository = await api.get(`repos/${this.state.input}`);
 
@@ -59,39 +58,15 @@ export default class Main extends Component {
   handleFilter = async e => {
     e.persist();
     try {
-      if (e.target.value === "2") {
-        const issuesFilter = await api.get(
-          `repos/${this.state.repositoryUser}/${
-            this.state.repositoryName
-          }/issues?state=open`
-        );
+      const issuesFilter = await api.get(
+        `repos/${this.state.repositoryUser}/${
+          this.state.repositoryName
+        }/issues?state=${e.target.value}`
+      );
 
-        this.setState({
-          issues: [issuesFilter.data]
-        });
-      }
-      if (e.target.value === "1") {
-        const issuesFilter = await api.get(
-          `repos/${this.state.repositoryUser}/${
-            this.state.repositoryName
-          }/issues?state=closed`
-        );
-
-        this.setState({
-          issues: [issuesFilter.data]
-        });
-      }
-      if (e.target.value === "0") {
-        const issuesFilter = await api.get(
-          `repos/${this.state.repositoryUser}/${
-            this.state.repositoryName
-          }/issues?state=all`
-        );
-
-        this.setState({
-          issues: [issuesFilter.data]
-        });
-      }
+      this.setState({
+        issues: [issuesFilter.data]
+      });
     } catch (err) {
       this.setState({ repositoryError: true });
     } finally {
@@ -113,7 +88,11 @@ export default class Main extends Component {
               onChange={e => this.setState({ input: e.target.value })}
             />
             <button type="submit">
-              <i className="fa fa-plus-circle" />
+              {this.state.loading ? (
+                <i className="fa fa-spinner fa-pulse" />
+              ) : (
+                <i className="fa fa-plus-circle" />
+              )}
             </button>
           </Form>
           <Divisor />
